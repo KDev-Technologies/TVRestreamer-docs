@@ -332,6 +332,25 @@ X-TVR-Signature: sha256=…   # HMAC-SHA256(body, secret)
 
 Повторни опити: 1 мин, 5 мин, 30 мин, 2 ч, 6 ч. Очаква се отговор `2xx` до 5 сек.
 
+Реализирано в TVR-095 (`io.tvr.core.webhook`, миграция V25, страница **Webhooks** — само ADMIN; dev-setup §91):
+
+- **Заглавки:** `X-TVR-Event` (типът), `X-TVR-Delivery` (= `id`, същото при всеки повторен опит), `X-TVR-Timestamp` (unix секунди на опита), `X-TVR-Signature: sha256=<hex>` — HMAC-SHA256 на **суровото** тяло с ключа на webhook-а (`whsec_…`, показва се само при създаване и при „Нов ключ“), `User-Agent: TvRestream-Webhook/1`. Пренасочвания не се следват.
+- **Събития и `data`:**
+
+| Тип | Кога | `data` |
+|---|---|---|
+| `stream.status_changed` | ново състояние на канал | `streamId`, `slug`, `name`, `from`, `to`, `reason`, `activeInputId`, `nodeId` |
+| `stream.failover` | превключване на вход (FAILOVER) или връщане към основния (RECOVERED) | `streamId`, `slug`, `name`, `kind`, `from`, `to` (позиции, 1 = основен), `fromInputId`, `toInputId`, `reason`, `trigger`, `manual`, `nodeId` |
+| `subscriber.created` / `subscriber.updated` / `subscriber.expired` / `subscriber.deleted` | промяна на абонат (панел, API ключ, CSV, масово удължаване, нощно изтичане) | `subscriberId`, `username`, `status`, `expiresAt`, `action` (действието от одита), `changes` (промените от одита, тайните скрити), `actor` |
+| `session.limit_exceeded` | ново устройство над лимита — отказано (`REJECT_NEW`) или затворено по-старо (`KICK_OLDEST`); най-много веднъж на 5 мин за абонат | `subscriberId`, `username`, `maxConnections`, `policy`, `stream`, `closedSessions` |
+| `node.status_changed` | сървър ONLINE / OFFLINE / DRAINING | `nodeId`, `name`, `from`, `to`, `lastSeenAt` |
+| `webhook.test` | бутон „Тест“ | `webhookId`, `name`, `message` |
+
+- **Доставка:** поне веднъж (получателят различава повторенията по `id`); след 6-ия неуспешен опит — `FAILED`. Изпращанията се пазят 7 дни: `GET /api/v1/webhooks/{id}/deliveries`, „Изпрати пак“ — `POST …/deliveries/{deliveryId}/actions/redeliver`. Адресите минават през `tvr.outbound.deny`.
+- **API:** `GET/POST /api/v1/webhooks`, `GET /api/v1/webhooks/events`, `GET/PUT/DELETE /api/v1/webhooks/{id}`, `POST …/{id}/actions/rotate-secret`, `POST …/{id}/test`. Пълният договор — `api/openapi.yaml` (`webhooks` → `event`).
+
+Проверка при получателя (Python): `hmac.compare_digest("sha256=" + hmac.new(secret.encode(), raw_body, hashlib.sha256).hexdigest(), header)`.
+
 ## 6. gRPC договор (извадка)
 
 ```protobuf

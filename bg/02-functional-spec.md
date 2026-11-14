@@ -312,7 +312,7 @@ flowchart TB
 | FR-API-01 | Всяка функция в UI е достъпна през REST API `/api/v1` (UI-то използва същия API) | M | MVP |
 | FR-API-02 | API ключове за интеграции с права (scopes) и срок на валидност | M | R1 |
 | FR-API-03 | OpenAPI 3.1 спецификация + Swagger UI | M | MVP |
-| FR-API-04 | Webhooks: `stream.status_changed`, `stream.failover`, `subscriber.created/updated/expired`, `session.limit_exceeded`, `node.status_changed`; HMAC подпис, повторни опити | S | R2 |
+| FR-API-04 | Webhooks: `stream.status_changed`, `stream.failover`, `subscriber.created/updated/expired/deleted`, `session.limit_exceeded`, `node.status_changed`; HMAC подпис, повторни опити | S | R2 |
 
 ---
 
