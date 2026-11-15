@@ -312,7 +312,7 @@ flowchart TB
 | FR-API-01 | Every UI function is available via REST API `/api/v1` (the UI uses the same API) | M | MVP |
 | FR-API-02 | API keys for integrations with scopes and expiry | M | R1 |
 | FR-API-03 | OpenAPI 3.1 specification + Swagger UI | M | MVP |
-| FR-API-04 | Webhooks: `stream.status_changed`, `stream.failover`, `subscriber.created/updated/expired`, `session.limit_exceeded`, `node.status_changed`; HMAC signature, retries | S | R2 |
+| FR-API-04 | Webhooks: `stream.status_changed`, `stream.failover`, `subscriber.created/updated/expired/deleted`, `session.limit_exceeded`, `node.status_changed`; HMAC signature, retries | S | R2 |
 
 ---
 

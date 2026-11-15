@@ -332,6 +332,25 @@ X-TVR-Signature: sha256=…   # HMAC-SHA256(body, secret)
 
 Retries: 1 min, 5 min, 30 min, 2 h, 6 h. A `2xx` response is expected within 5 s.
 
+Implemented in TVR-095 (`io.tvr.core.webhook`, migration V25, **Webhooks** page — ADMIN only; dev-setup §91):
+
+- **Headers:** `X-TVR-Event` (the type), `X-TVR-Delivery` (= `id`, the same in every retry), `X-TVR-Timestamp` (unix seconds of the attempt), `X-TVR-Signature: sha256=<hex>` — HMAC-SHA256 of the **raw** body with the webhook's secret (`whsec_…`, shown only when created and on "New secret"), `User-Agent: TvRestream-Webhook/1`. Redirects are not followed.
+- **Events and `data`:**
+
+| Type | When | `data` |
+|---|---|---|
+| `stream.status_changed` | a channel has a new state | `streamId`, `slug`, `name`, `from`, `to`, `reason`, `activeInputId`, `nodeId` |
+| `stream.failover` | an input switch (FAILOVER) or the return to the primary (RECOVERED) | `streamId`, `slug`, `name`, `kind`, `from`, `to` (positions, 1 = primary), `fromInputId`, `toInputId`, `reason`, `trigger`, `manual`, `nodeId` |
+| `subscriber.created` / `subscriber.updated` / `subscriber.expired` / `subscriber.deleted` | a subscriber changed (panel, API key, CSV, bulk extend, nightly expiry) | `subscriberId`, `username`, `status`, `expiresAt`, `action` (the audit action), `changes` (the audit diff, secrets hidden), `actor` |
+| `session.limit_exceeded` | a new device over the limit — refused (`REJECT_NEW`) or an older one closed (`KICK_OLDEST`); at most once per 5 min per subscriber | `subscriberId`, `username`, `maxConnections`, `policy`, `stream`, `closedSessions` |
+| `node.status_changed` | a server ONLINE / OFFLINE / DRAINING | `nodeId`, `name`, `from`, `to`, `lastSeenAt` |
+| `webhook.test` | the Test button | `webhookId`, `name`, `message` |
+
+- **Delivery:** at least once (a receiver tells repeats by `id`); after the 6th failed attempt — `FAILED`. Deliveries are kept 7 days: `GET /api/v1/webhooks/{id}/deliveries`, "Send again" — `POST …/deliveries/{deliveryId}/actions/redeliver`. Addresses pass `tvr.outbound.deny`.
+- **API:** `GET/POST /api/v1/webhooks`, `GET /api/v1/webhooks/events`, `GET/PUT/DELETE /api/v1/webhooks/{id}`, `POST …/{id}/actions/rotate-secret`, `POST …/{id}/test`. Full contract — `api/openapi.yaml` (`webhooks` → `event`).
+
+Checking on the receiver (Python): `hmac.compare_digest("sha256=" + hmac.new(secret.encode(), raw_body, hashlib.sha256).hexdigest(), header)`.
+
 ## 6. gRPC contract (excerpt)
 
 ```protobuf
