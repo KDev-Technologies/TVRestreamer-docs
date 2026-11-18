@@ -214,7 +214,7 @@ erDiagram
 | `stream_input.options` | JSON по типа, например `{"headers":{"User-Agent":"..."}, "iface":"eth1", "ssm_source":"10.0.0.1", "srt":{"mode":"caller","latency":200,"passphrase":"***"}, "analyzeduration":1.5}` (`analyzeduration` — секунди за разпознаване на входа, 0,5–30, по подразбиране 1,5; TVR-021). Тайните се шифрират (AES-GCM, ключ от env). |
 | `stream.return_to_primary`, `return_after_sec` | Връщане към основния вход (FR-FOV-05, V8, TVR-052): по подразбиране `true` и 30 сек (5..3600). |
 | `stream.failover_*` | Тригери на failover освен липсата на данни (FR-FOV-04, V9, TVR-054): `failover_cc_errors_per_min` и `failover_min_bitrate_kbps` (0 = изключено, до 1 000 000), `failover_on_no_video` / `_no_audio` / `_scrambled` (по подразбиране `true`), `failover_hold_sec` (1..300, по подразбиране 5) — колко дълго трябва да трае проблемът. |
-| `stream.processing` | `{"pnr":101, "audio":{"keep_langs":["bul","eng"]}, "drop_subtitles":true, "service_name":"BTV HD"}` |
+| `stream.processing` | `{"keepAudioLangs":["bul","eng"], "dropSubtitles":true, "serviceName":"bTV HD", "serviceProvider":"TvRestream", "serviceId":101}` (TVR-062, TVR-102; програмата от MPTS е `inputs[].options.pnr`, TVR-061) |
 | `stream_output.options` | HLS: `{"segment_sec":4, "list_size":6}`; UDP: `{"addr":"239.1.1.10","port":1234,"ttl":4,"iface":"eth1"}` |
 | `subscriber.token` | 32 символа base62, генерира се с `SecureRandom`. Индекс unique. |
 | `subscriber.expires_at` | Последен ден на достъп (Europe/Sofia); `NULL` = без изтичане. Частичен индекс за нощната задача (само `ACTIVE` с дата, BR-01). `password_hash` е по избор (Argon2id) — само за Xtream-подобен достъп. |
