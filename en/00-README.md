@@ -25,10 +25,11 @@
 | 10 | [Roadmap & backlog](10-roadmap-backlog.md) | PM | Milestones, sprints, epics, Definition of Done |
 | 11 | [Risks, ADRs & glossary](11-risks-adr-glossary.md) | Everyone | Risks, architecture decisions, terms |
 | 12 | [Development plan & tracking](12-development-plan.md) | Everyone | Process, stages, 109 tickets, progress board |
+| 13 | [Feature reference](13-feature-reference.md) | Everyone | Detailed description of every implemented feature: how it works, where it is configured, API, limits |
 
 ## 30-second summary
 
-TvRestream ingests TV streams from providers and local sources (HTTP/HLS, UDP/Multicast, SRT/RTMP/RTSP, and later DVB-S/S2). It monitors their quality and automatically switches to a backup source when something fails. It delivers the channels to 2,000–2,500 subscribers as HLS and HTTP-TS, with protected personal links, channel packages and device limits.
+TvRestream ingests TV streams from providers and local sources (HTTP/HLS, UDP/Multicast, SRT/RTMP/RTSP and DVB-S/S2). It monitors their quality and automatically switches to a backup source when something fails. It delivers the channels to 2,000–2,500 subscribers as HLS and HTTP-TS, with protected personal links, channel packages and device limits.
 
 It is similar to **Cesbo Astra** for ingest, analysis, redundancy and delivery, but **without DVR/archive**. It includes built-in subscriber management (middleware), which Astra does not have.
 
@@ -47,7 +48,7 @@ flowchart LR
 1. **FFmpeg for stream I/O, Java for logic.** Video never passes through business logic. See ADR-001.
 2. **Custom TS switcher and analyzer in Java (Netty)** for fast backup switching (under 3 s) without restarting packaging. See ADR-003.
 3. **HLS is the primary output**, served by nginx from a RAM disk. HTTP-TS is served by a relay in the agent. See ADR-004.
-4. **No transcoding in the MVP** (`-c copy` only). GPU transcoding is in Phase 3.
+4. **No transcoding in the MVP** (`-c copy` only). GPU transcoding with 1080p/720p/480p profiles was built in R3 (TVR-106) and is optional per channel — see [document 13 §5.2](13-feature-reference.md#52-video-transcoding-tvr-106-fr-prc-05-adr-008).
 5. **Control plane / data plane split.** One `tvr-core` manages N `tvr-agent` servers.
 
 ## Conventions
