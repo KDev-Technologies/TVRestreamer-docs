@@ -214,7 +214,7 @@ erDiagram
 | `stream_input.options` | Type-specific JSON, e.g. `{"headers":{"User-Agent":"..."}, "iface":"eth1", "ssm_source":"10.0.0.1", "srt":{"mode":"caller","latency":200,"passphrase":"***"}, "analyzeduration":1.5}` (`analyzeduration` — seconds FFmpeg probes the input, 0.5–30, default 1.5; TVR-021). Secrets are encrypted (AES-GCM, key from env). |
 | `stream.return_to_primary`, `return_after_sec` | Return to primary (FR-FOV-05, V8, TVR-052): `true` and 30 s by default (5..3600). |
 | `stream.failover_*` | Failover triggers besides missing data (FR-FOV-04, V9, TVR-054): `failover_cc_errors_per_min` and `failover_min_bitrate_kbps` (0 = off, up to 1,000,000), `failover_on_no_video` / `_no_audio` / `_scrambled` (`true` by default), `failover_hold_sec` (1..300, 5 by default) — how long the problem must last. |
-| `stream.processing` | `{"pnr":101, "audio":{"keep_langs":["bul","eng"]}, "drop_subtitles":true, "service_name":"BTV HD"}` |
+| `stream.processing` | `{"keepAudioLangs":["bul","eng"], "dropSubtitles":true, "serviceName":"bTV HD", "serviceProvider":"TvRestream", "serviceId":101}` (TVR-062, TVR-102; the MPTS program is `inputs[].options.pnr`, TVR-061) |
 | `stream_output.options` | HLS: `{"segment_sec":4, "list_size":6}`; UDP: `{"addr":"239.1.1.10","port":1234,"ttl":4,"iface":"eth1"}` |
 | `subscriber.token` | 32-character base62, generated with `SecureRandom`. Unique index. |
 | `subscriber.expires_at` | Last day of access (Europe/Sofia); `NULL` = never expires. Partial index for the nightly job (only `ACTIVE` with a date, BR-01). `password_hash` is optional (Argon2id) — only for Xtream-like access. |
