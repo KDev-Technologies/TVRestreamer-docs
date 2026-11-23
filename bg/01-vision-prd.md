@@ -48,7 +48,7 @@
 
 | Функция | Причина | Кога |
 |---|---|---|
-| DVR / Catch-up / Timeshift | Изрично изключено | — |
+| DVR / Catch-up / Timeshift | Изрично изключено от TvRestream | Архивът е в отделния TimeShift Server — [14 · Интеграция с TimeShift](14-timeshift-integration.md) |
 | Прекодиране (transcoding) | Не е нужно за restream, висока цена на хардуер | R3 (GPU NVENC) |
 | DVB-S/S2/T/C приемане | Нужен е хардуер, сложност | R3 |
 | CAS / дескрамблиране (BISS, CAM) | Правни и технически рискове | R3, по преценка |

@@ -48,7 +48,7 @@ Operators who restream IPTV channels to their own subscribers usually:
 
 | Feature | Reason | When |
 |---|---|---|
-| DVR / Catch-up / Timeshift | Explicitly excluded | — |
+| DVR / Catch-up / Timeshift | Explicitly excluded from TvRestream | The archive is in the separate TimeShift Server — [14 · TimeShift integration](14-timeshift-integration.md) |
 | Transcoding | Not needed for restreaming, high hardware cost | R3 (GPU NVENC) |
 | DVB-S/S2/T/C reception | Needs hardware, complexity | R3 |
 | CAS / descrambling (BISS, CAM) | Legal and technical risks | R3, to be decided |
