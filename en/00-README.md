@@ -25,6 +25,7 @@
 | 10 | [Roadmap & backlog](10-roadmap-backlog.md) | PM | Milestones, sprints, epics, Definition of Done |
 | 11 | [Risks, ADRs & glossary](11-risks-adr-glossary.md) | Everyone | Risks, architecture decisions, terms |
 | 12 | [Development plan & tracking](12-development-plan.md) | Everyone | Process, stages, 109 tickets, progress board |
+| 14 | [TimeShift integration](14-timeshift-integration.md) | Admins, DevOps, Dev | Catch-up from TimeShift Server: step-by-step connection, settings, API, cache, failures |
 
 ## 30-second summary
 

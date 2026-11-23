@@ -25,6 +25,7 @@
 | 10 | [Roadmap и backlog](10-roadmap-backlog.md) | PM | Етапи, спринтове, епици, Definition of Done |
 | 11 | [Рискове, ADR и речник](11-risks-adr-glossary.md) | Всички | Рискове, архитектурни решения, термини |
 | 12 | [План за разработка и проследяване](12-development-plan.md) | Всички | Процес, етапи, 109 тикета, борд за прогрес |
+| 14 | [Интеграция с TimeShift](14-timeshift-integration.md) | Админи, DevOps, Dev | Catch-up от TimeShift Server: свързване стъпка по стъпка, настройки, API, кеш, откази |
 
 ## Резюме в 30 секунди
 
