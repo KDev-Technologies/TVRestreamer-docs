@@ -106,6 +106,7 @@ erDiagram
         string limit_policy "REJECT_NEW|KICK_OLDEST"
         cidr[] allowed_ips
         string[] allowed_countries
+        string[] allowed_macs
         text note
     }
     SUBSCRIBER_PACKAGE {
@@ -289,4 +290,5 @@ stateDiagram-v2
 | V2 | TVR-006 | `admin_user` (имейл уникален без значение от регистъра, роли ADMIN/OPERATOR/SUPPORT/VIEWER), `admin_refresh_token` (само SHA-256 hash, ротация) |
 | V5 | TVR-037 | `package` (име уникално без значение от регистъра), `package_stream` (подредба `sort_order`, уникална в пакета с отложена проверка), `subscriber` (`username` уникално без значение от регистъра, `token` — 32 символа base62, статуси, `max_connections` 1–100, `limit_policy`, `allowed_ips cidr[]`, `allowed_countries` ISO 3166-1 alpha-2), `subscriber_package`, `device` (уникален `fingerprint` в рамките на абоната) |
 | V7 | TVR-047 | `stream_logo` (едно качено лого на канал: `content_type` PNG/SVG, `data bytea` ≤ 512 KB, `sha256`; изтрива се с канала) |
+| V29 | TVR-104 | `subscriber.allowed_macs varchar(17)[]` — заключване към MAC (FR-DEV-02): главни букви `00:1A:79:AB:CD:EF`, CHECK за формата; празно = всяко устройство |
 - Всяка миграция трябва да е обратно съвместима поне с една предишна версия на кода (zero-downtime deploy).

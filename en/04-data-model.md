@@ -106,6 +106,7 @@ erDiagram
         string limit_policy "REJECT_NEW|KICK_OLDEST"
         cidr[] allowed_ips
         string[] allowed_countries
+        string[] allowed_macs
         text note
     }
     SUBSCRIBER_PACKAGE {
@@ -289,4 +290,5 @@ stateDiagram-v2
 | V2 | TVR-006 | `admin_user` (case-insensitive unique email, roles ADMIN/OPERATOR/SUPPORT/VIEWER), `admin_refresh_token` (SHA-256 hash only, rotation) |
 | V5 | TVR-037 | `package` (case-insensitive unique name), `package_stream` (`sort_order`, unique per package with a deferred check), `subscriber` (case-insensitive unique `username`, `token` — 32 base62 chars, statuses, `max_connections` 1–100, `limit_policy`, `allowed_ips cidr[]`, `allowed_countries` ISO 3166-1 alpha-2), `subscriber_package`, `device` (`fingerprint` unique per subscriber) |
 | V7 | TVR-047 | `stream_logo` (one uploaded logo per channel: `content_type` PNG/SVG, `data bytea` ≤ 512 KB, `sha256`; cascade with the channel) |
+| V29 | TVR-104 | `subscriber.allowed_macs varchar(17)[]` — MAC lock (FR-DEV-02): upper case `00:1A:79:AB:CD:EF`, CHECK on the form; empty = any device |
 - Every migration must be backward compatible with at least the previous code version (zero-downtime deploy).
